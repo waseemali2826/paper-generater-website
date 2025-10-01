@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+  <defs>
+    <style>
+      .bg { fill: #3f78e0; }
+      .text { fill: #ffffff; font: 800 28px sans-serif; }
+    </style>
+  </defs>
+  <rect x="4" y="4" width="56" height="56" rx="10" ry="10" class="bg"/>
+  <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" class="text">PG</text>
+</svg>

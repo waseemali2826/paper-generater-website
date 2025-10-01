@@ -1,0 +1,323 @@
+/** @import must precede all other statements */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  /**
+   * Tailwind CSS theme
+   * tailwind.config.ts expects the following color variables to be expressed as HSL values.
+   * A different format will require also updating the theme in tailwind.config.ts.
+  */
+  :root {
+    /* Premium theme - Midnight Teal & Sunset Gold
+       Apply sidebar palette across the entire site by default */
+    --sidebar-background: 0 0% 100%;
+    --sidebar-foreground: 0 0% 0%;
+
+    --background: 223 70% 96%;
+    --foreground: 0 0% 0%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 0%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 0%;
+
+    --primary: 219 72% 56%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 219 72% 56%;
+    --secondary-foreground: 0 0% 100%;
+
+    --muted: 220 16% 95%;
+    --muted-foreground: 220 15% 35%;
+
+    --accent: 0 0% 100%;
+    --accent-foreground: 219 72% 56%;
+
+    --destructive: 354 65% 55%;
+    --destructive-foreground: 210 20% 98%;
+
+    --border: 220 14% 90%;
+    --input: 220 14% 90%;
+    --ring: 219 72% 56%;
+
+    --radius: 0.875rem;
+
+    --sidebar-primary: 219 72% 56%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 219 72% 56%;
+    --sidebar-accent-foreground: 0 0% 100%;
+    --sidebar-border: 220 14% 90%;
+    --sidebar-ring: 219 72% 56%;
+  }
+
+  .dark {
+    --background: 240 10% 3.9%;
+    --foreground: 210 40% 98%;
+
+    --card: 240 10% 3.9%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 240 10% 3.9%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 262 83% 64%;
+    --primary-foreground: 240 10% 3.9%;
+
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+
+    --accent: 262 35% 22%;
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 262 83% 64%;
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 262 83% 64%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 262 35% 22%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 262 83% 64%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-feature-settings: "ss01" on;
+  }
+
+  /* Premium surface shadows */
+  .card-surface {
+    box-shadow:
+      0 6px 18px rgba(16, 24, 40, 0.08),
+      0 2px 6px rgba(16, 24, 40, 0.06);
+    border-radius: var(--radius);
+  }
+  a {
+    color: #3f78e0;
+  }
+  a:hover {
+    color: #325fb3;
+  }
+}
+
+/* Yellow scrollbar utility for scrollable areas (matches theme secondary color) */
+.scrollbar-yellow {
+  scrollbar-width: thin; /* Firefox */
+  scrollbar-color: hsl(var(--secondary)) transparent; /* Firefox */
+}
+.scrollbar-yellow::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+.scrollbar-yellow::-webkit-scrollbar-track {
+  background: transparent;
+}
+.scrollbar-yellow::-webkit-scrollbar-thumb {
+  background-color: hsl(var(--secondary));
+  border-radius: 9999px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+.scrollbar-yellow::-webkit-scrollbar-thumb:hover {
+  filter: brightness(0.92);
+}
+
+/* Utility: hide scrollbar but keep scrolling */
+.scrollbar-none {
+  -ms-overflow-style: none; /* IE and old Edge */
+  scrollbar-width: none; /* Firefox */
+}
+.scrollbar-none::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  display: none; /* Chrome, Safari */
+}
+
+/* Black input utility to keep inputs black on focus and autofill */
+.input-black {
+  background-color: #000 !important;
+  color: #fff !important;
+}
+.input-black::placeholder {
+  color: rgba(255, 255, 255, 0.6);
+}
+.input-black:focus,
+.input-black:active {
+  background-color: #000 !important;
+}
+.input-black:-webkit-autofill,
+.input-black:-webkit-autofill:hover,
+.input-black:-webkit-autofill:focus {
+  -webkit-text-fill-color: #fff;
+  box-shadow: 0 0 0px 1000px #000 inset;
+  transition: background-color 9999s ease-out 0s;
+}
+
+/* Hide number input spinners globally */
+@layer base {
+  input[type="number"]::-webkit-outer-spin-button,
+  input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  input[type="number"] {
+    -moz-appearance: textfield;
+    appearance: textfield;
+  }
+}
+
+/* Hide global scrollbars but keep scrolling */
+@layer base {
+  html,
+  body {
+    -ms-overflow-style: none; /* IE and old Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+  html::-webkit-scrollbar,
+  body::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+  }
+}
+
+/* Card shadow */
+.card-yellow-shadow {
+  position: relative;
+  border-radius: var(--radius);
+  box-shadow:
+    0 8px 16px rgba(0, 0, 0, 0.08),
+    0 2px 4px rgba(0, 0, 0, 0.06);
+}
+.card-yellow-shadow::before {
+  display: none;
+}
+.card-yellow-shadow::after {
+  display: none;
+}
+
+/* Center the 3rd pricing card when grid shows 2 columns (sm screens) */
+@layer components {
+  @media (min-width: 640px) and (max-width: 767.98px) {
+    .pricing-grid > *:nth-child(3) {
+      grid-column: 1 / -1;
+      justify-self: center;
+      /* Match one column width in the 2-column layout: (100% - gap) / 2 */
+      width: calc((100% - 1.5rem) / 2);
+      max-width: calc((100% - 1.5rem) / 2);
+    }
+  }
+  @media (min-width: 768px) {
+    .pricing-grid > *:nth-child(3) {
+      grid-column: auto;
+      justify-self: stretch;
+      max-width: none;
+    }
+  }
+}
+
+/* Paper view: prevent overlap/overflow and add subtle centered watermark */
+.paper-view {
+  position: relative;
+  min-height: 60vh;
+}
+.paper-body {
+  position: relative;
+  z-index: 1;
+  overflow-wrap: anywhere; /* break long tokens */
+  word-break: break-word;
+  hyphens: auto;
+  white-space: normal;
+  text-wrap: pretty;
+  line-height: 1.7;
+}
+
+/* Uiverse loader (Donewenfu) */
+.loader {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+.jimu-primary-loading:before,
+.jimu-primary-loading:after {
+  position: absolute;
+  top: 0;
+  content: "";
+}
+.jimu-primary-loading:before {
+  left: -9px;
+}
+.jimu-primary-loading:after {
+  left: 9px;
+  -webkit-animation-delay: 0.32s !important;
+  animation-delay: 0.32s !important;
+}
+.jimu-primary-loading:before,
+.jimu-primary-loading:after,
+.jimu-primary-loading {
+  background: currentColor;
+  -webkit-animation: loading-keys-app-loading 0.8s infinite ease-in-out;
+  animation: loading-keys-app-loading 0.8s infinite ease-in-out;
+  width: 6px;
+  height: 16px;
+}
+.jimu-primary-loading {
+  text-indent: -9999em;
+  margin: auto;
+  position: absolute;
+  right: calc(50% - 3px);
+  top: calc(50% - 8px);
+  -webkit-animation-delay: 0.16s !important;
+  animation-delay: 0.16s !important;
+}
+@-webkit-keyframes loading-keys-app-loading {
+  0%,
+  80%,
+  100% {
+    opacity: 0.75;
+    box-shadow: 0 0 currentColor;
+    height: 16px;
+  }
+  40% {
+    opacity: 1;
+    box-shadow: 0 -5px currentColor;
+    height: 22px;
+  }
+}
+@keyframes loading-keys-app-loading {
+  0%,
+  80%,
+  100% {
+    opacity: 0.75;
+    box-shadow: 0 0 currentColor;
+    height: 16px;
+  }
+  40% {
+    opacity: 1;
+    box-shadow: 0 -5px currentColor;
+    height: 22px;
+  }
+}

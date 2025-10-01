@@ -1,0 +1,25 @@
+[build]
+  command = "npm run build"
+  publish = "dist/"
+
+[functions]
+  node_bundler = "esbuild"
+  external_node_modules = ["express", "cors", "multer", "serverless-http", "dotenv"]
+
+# All API calls go through the proxy function
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/proxy"
+  status = 200
+  force = true
+
+# SPA fallback
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# Edge function for static caching
+[[edge_functions]]
+  function = "edge-cache"
+  path = "/*"
