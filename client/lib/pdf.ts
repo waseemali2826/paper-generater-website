@@ -32,77 +32,77 @@ export async function generateExamStylePdf(params: {
     }
   } catch {}
 
-  // Build an offscreen container that includes an optional institute header (logo + name) and the formatted body
+  // Always render into a neutral offscreen container to ensure readable colors (black text on white background)
   let wrapper: HTMLDivElement | null = null;
-  let container: HTMLElement | null = document.querySelector(
-    ".paper-view .paper-body",
-  );
+  let container: HTMLElement | null = null;
   let cleanup: (() => void) | null = null;
 
-  if (!container) {
-    wrapper = document.createElement("div");
-    wrapper.style.position = "fixed";
-    wrapper.style.left = "-99999px";
-    wrapper.style.top = "0";
-    wrapper.style.width = "794px"; // approx A4 width in px at 96dpi
-    wrapper.className = "paper-view";
+  wrapper = document.createElement("div");
+  wrapper.style.position = "fixed";
+  wrapper.style.left = "-99999px";
+  wrapper.style.top = "0";
+  wrapper.style.width = "794px"; // approx A4 width in px at 96dpi
+  wrapper.style.background = "#ffffff";
+  wrapper.className = "paper-view";
 
-    const inner = document.createElement("div");
-    inner.className =
-      "paper-body prose prose-invert prose-lg leading-relaxed max-w-none break-words";
+  const inner = document.createElement("div");
+  inner.className =
+    "paper-body prose prose-lg leading-relaxed max-w-none break-words";
+  inner.style.color = "#000000";
 
-    // Optional header: institute logo + name (no extra titles like MCQs/QnA/Exam)
-    if (instituteHeader?.instituteName || instituteHeader?.instituteLogo) {
-      const header = document.createElement("div");
-      header.style.display = "flex";
-      header.style.alignItems = "center";
-      header.style.gap = "12px";
-      header.style.borderBottom = "1px solid #E5E7EB"; // neutral border
-      header.style.padding = "6px 0 12px 0";
+  // Optional header: institute logo + name (no extra titles like MCQs/QnA/Exam)
+  if (instituteHeader?.instituteName || instituteHeader?.instituteLogo) {
+    const header = document.createElement("div");
+    header.style.display = "flex";
+    header.style.alignItems = "center";
+    header.style.gap = "12px";
+    header.style.borderBottom = "1px solid #E5E7EB"; // neutral border
+    header.style.padding = "6px 0 12px 0";
 
-      if (instituteHeader?.instituteLogo) {
-        const img = document.createElement("img");
-        img.src = instituteHeader.instituteLogo;
-        img.alt = "Institute Logo";
-        img.style.width = "56px";
-        img.style.height = "56px";
-        img.style.objectFit = "contain";
-        img.style.borderRadius = "6px";
-        img.crossOrigin = "anonymous";
-        header.appendChild(img);
-      }
-
-      if (instituteHeader?.instituteName) {
-        const name = document.createElement("div");
-        name.style.fontWeight = "800";
-        name.style.fontSize = "18px";
-        name.style.lineHeight = "1.2";
-        name.textContent = String(instituteHeader.instituteName || "");
-        header.appendChild(name);
-      }
-
-      inner.appendChild(header);
+    if (instituteHeader?.instituteLogo) {
+      const img = document.createElement("img");
+      img.src = instituteHeader.instituteLogo;
+      img.alt = "Institute Logo";
+      img.style.width = "56px";
+      img.style.height = "56px";
+      img.style.objectFit = "contain";
+      img.style.borderRadius = "6px";
+      img.crossOrigin = "anonymous";
+      header.appendChild(img);
     }
 
-    const bodyEl = document.createElement("div");
-    try {
-      const fmt = await import("@/lib/format");
-      bodyEl.innerHTML = fmt.formatResultHtml(body || "");
-    } catch {
-      bodyEl.textContent = body || "";
+    if (instituteHeader?.instituteName) {
+      const name = document.createElement("div");
+      name.style.fontWeight = "800";
+      name.style.fontSize = "18px";
+      name.style.lineHeight = "1.2";
+      name.style.color = "#000000";
+      name.textContent = String(instituteHeader.instituteName || "");
+      header.appendChild(name);
     }
 
-    inner.appendChild(bodyEl);
-    wrapper.appendChild(inner);
-    document.body.appendChild(wrapper);
-    container = inner;
-    cleanup = () => {
-      try {
-        if (wrapper && wrapper.parentNode)
-          wrapper.parentNode.removeChild(wrapper);
-      } catch {}
-    };
+    inner.appendChild(header);
   }
+
+  const bodyEl = document.createElement("div");
+  bodyEl.style.color = "#000000";
+  try {
+    const fmt = await import("@/lib/format");
+    bodyEl.innerHTML = fmt.formatResultHtml(body || "");
+  } catch {
+    bodyEl.textContent = body || "";
+  }
+
+  inner.appendChild(bodyEl);
+  wrapper.appendChild(inner);
+  document.body.appendChild(wrapper);
+  container = inner;
+  cleanup = () => {
+    try {
+      if (wrapper && wrapper.parentNode)
+        wrapper.parentNode.removeChild(wrapper);
+    } catch {}
+  };
 
   const rect = container.getBoundingClientRect();
   const width = Math.max(700, Math.ceil(rect.width));

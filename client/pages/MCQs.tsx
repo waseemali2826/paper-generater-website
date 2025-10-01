@@ -439,15 +439,29 @@ Use concise, exam-style wording suitable for classroom tests.`;
               json?.result ??
               json?.message ??
               JSON.stringify(json));
-        const finalText = String(text);
+        const finalText = String(text || "").trim();
         setResult(finalText);
         setCached(cacheKey, finalText);
         setLatest("mcqs", finalText, uid);
+        if (!finalText) {
+          console.warn("MCQ generation: empty result from API (json)");
+          toast({
+            title: "No content",
+            description: "The generation service returned no content.",
+          });
+        }
       } else {
-        const text = await attempt.text();
+        const text = String((await attempt.text()) || "").trim();
         setResult(text);
         setCached(cacheKey, text);
         setLatest("mcqs", text, uid);
+        if (!text) {
+          console.warn("MCQ generation: empty result from API (text)");
+          toast({
+            title: "No content",
+            description: "The generation service returned no content.",
+          });
+        }
       }
     } finally {
       setLoading(false);
