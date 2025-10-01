@@ -99,7 +99,8 @@ export async function generateExamStylePdf(params: {
   container = inner;
   cleanup = () => {
     try {
-      if (wrapper && wrapper.parentNode) wrapper.parentNode.removeChild(wrapper);
+      if (wrapper && wrapper.parentNode)
+        wrapper.parentNode.removeChild(wrapper);
     } catch {}
   };
 
